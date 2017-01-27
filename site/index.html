@@ -27,6 +27,7 @@
 
       <div class="top-buffer">
 
+          <button id="color" class="btn btn-default btn-block jscolor {valueElement:null,value:'6F664A'}">Color</button>
           <button id="sun" class="btn btn-default btn-block">Sun</button>
           <button id="red_alert" class="btn btn-default btn-block">Red Alert</button>
           <button id="red_pulse" class="btn btn-default btn-block">Red Pulse</button>
@@ -52,6 +53,7 @@
       if($(this).attr("id") == "color") {
         $.ajax({
             type: "GET",
+            url: "/mode/"+$(this).attr("id") + "/" + this.jscolor.toHEXString().substr(-6),
             success: function(result) {
                 $("#msg").html(result).addClass("in");
             }
