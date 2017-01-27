@@ -1,7 +1,7 @@
 {
   "name": "neopixel-light-panel",
   "version": "1.0.0",
-  "description": "Simple web controlled NeoPixel panel",
+  "description": "Simple web controlled NeoPixel light panel",
   "main": "app.js",
   "dependencies": {
     "bootstrap": "^3.3.7",

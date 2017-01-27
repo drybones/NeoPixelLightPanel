@@ -3,7 +3,7 @@
 // Simple red/blue fade with Node and opc.js
 
 var OPC = new require('./opc')
-var client = new OPC('raspberrypi.local', 7890);
+var client = new OPC('localhost', 7890);
 var express = require('express');
 var app = express();
 
