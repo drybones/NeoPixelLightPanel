@@ -25,40 +25,26 @@
   <body>
     <div class="container">
 
-      <div class="btn-toolbar top-buffer" role="toolbar">
+      <div class="top-buffer">
 
-        <div class="btn-group btn-group-lg" role="group">
-          <button id="color" class="btn btn-default">Color</button>
-          <button id="sun" class="btn btn-default">Sun</button>
-        </div>
-
-        <div class="btn-group btn-group-lg" role="group">
-          <button id="red_alert" class="btn btn-default">Red Alert</button>
-          <button id="red_pulse" class="btn btn-default">Red Pulse</button>
-          <button id="cool_pulse" class="btn btn-default">Cool Pulse</button>
-          <button id="wave" class="btn btn-default">Wave</button>
-        </div>
-
-        <div class="btn-group btn-group-lg" role="group">
-          <button id="off" class="btn btn-danger">Off</button>
-        </div>
+          <button id="sun" class="btn btn-default btn-block">Sun</button>
+          <button id="red_alert" class="btn btn-default btn-block">Red Alert</button>
+          <button id="red_pulse" class="btn btn-default btn-block">Red Pulse</button>
+          <button id="cool_pulse" class="btn btn-default btn-block">Cool Pulse</button>
+          <button id="wave" class="btn btn-default btn-block">Wave</button>
+          <button id="off" class="btn btn-danger btn-block">Off</button>
 
       </div>
 
-      <div><input class="jscolor top-buffer" onchange="$('#color').click()" value="6F664A" id="color_picker"></div>
 
       <div class="alert alert-info collapse top-buffer" role="alert" id="msg"></div>
 
     </div>
 
 
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
-
-    <script src="jscolor.min.js"></script>
-
+    <script src="js/jscolor.min.js"></script>
 
     <script>
     $(document).ready(function() {
@@ -66,7 +52,6 @@
       if($(this).attr("id") == "color") {
         $.ajax({
             type: "GET",
-            url: "/mode/"+$(this).attr("id") + "/" + $("#color_picker").val(),
             success: function(result) {
                 $("#msg").html(result).addClass("in");
             }
