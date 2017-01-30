@@ -3,7 +3,7 @@
 // Simple red/blue fade with Node and opc.js
 
 var OPC = new require('./opc')
-var client = new OPC('localhost', 7890);
+var client = new OPC(process.env.FADECANDY_SERVER || 'localhost', 7890);
 var express = require('express');
 var app = express();
 
@@ -11,7 +11,7 @@ var NUM_PIXELS = 240;
 var mode = null;
 var mode_value = null;
 
-app.use(express.static('site'));
+app.use(express.static(__dirname + '/site'));
 app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js')); // redirect bootstrap JS
 app.use('/js', express.static(__dirname + '/node_modules/jquery/dist')); // redirect JS jQuery
 app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css')); // redirect CSS bootstrap
@@ -63,6 +63,13 @@ function draw() {
                 var red = 128 + 96 * Math.sin(t);
 
                 client.setPixel(pixel, red, 0, 0);
+            }
+            break;
+        case "rainbow":
+            for(var pixel = 0; pixel < NUM_PIXELS; pixel++) {
+                var h = Math.floor((256 * (pixel % 30) / 30.0 + millis * 0.1 + 3*pixel/30) % 256);
+                var c = colorWheel(h);
+                client.setPixel(pixel, c.r, c.g, c.b);
             }
             break;
         case "red_pulse":
@@ -130,6 +137,18 @@ function hexToRgb(hex) {
         g: parseInt(result[2], 16),
         b: parseInt(result[3], 16)
     } : null;
+}
+
+function colorWheel(WheelPos) {
+  if(WheelPos < 85) {
+   return { r: WheelPos * 3, g: 255 - WheelPos * 3, b: 0 };
+  } else if(WheelPos < 170) {
+   WheelPos -= 85;
+   return { r: 255 - WheelPos * 3, g: 0, b: WheelPos * 3 };
+  } else {
+   WheelPos -= 170;
+   return { r: 0, g: WheelPos * 3, b: 255 - WheelPos * 3 };
+  } 
 }
 
 setInterval(draw, 30);
