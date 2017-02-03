@@ -4,6 +4,7 @@
 
 var OPC = new require('./opc')
 var client = new OPC(process.env.FADECANDY_SERVER || 'localhost', 7890);
+var model = OPC.loadModel('./layout.json');
 var express = require('express');
 var app = express();
 
@@ -117,6 +118,37 @@ function draw() {
                 client.setPixel(pixel, red, green, blue);
             }
             break;
+        case "particle_trail":
+            var time = 0.009 * millis;
+            var numParticles = 200;
+            var particles = [];
+
+            particles[0] = {
+                point: [],          // Arbitrary location
+                intensity: 0.07,
+                falloff: 0,         // No falloff, particle has infinite size
+                color:OPC.hsv(time * 0.01, 0.3, 0.8)
+            };
+
+            for (var i = 1; i < numParticles; i++) {
+                var s = i / numParticles;
+
+                var radius = 0.2 + 0.8 * s;
+                var theta = time + 0.04 * i;
+                var x = 1.5 * radius * Math.cos(theta) + 1.0 * Math.sin(time * 0.05);
+                var y = radius * Math.sin(theta + 10.0 * Math.sin(theta * 0.15));
+                var hue = time * 0.01 + s * 0.2;
+
+                particles[i] = {
+                    point: [x, 0, y],
+                    intensity: 0.2 * s,
+                    falloff: 100,
+                    color: OPC.hsv(hue, 0.5, 0.8)
+                };
+            }
+
+            client.mapParticles(particles, model);
+            break;
     }
     if(mode)
     {
@@ -151,4 +183,4 @@ function colorWheel(WheelPos) {
   } 
 }
 
-setInterval(draw, 30);
+setInterval(draw, 10);

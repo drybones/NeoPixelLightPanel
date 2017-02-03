@@ -13,6 +13,16 @@
         },
         {
             "type": "node",
+            "request": "launch",
+            "name": "Launch Program Against Raspbery Pi",
+            "program": "${workspaceRoot}/app.js",
+            "cwd": "${workspaceRoot}",
+            "env": {
+                "FADECANDY_SERVER": "raspberrypi.local"
+            }
+        },
+        {
+            "type": "node",
             "request": "attach",
             "name": "Attach to Process",
             "port": 5858
