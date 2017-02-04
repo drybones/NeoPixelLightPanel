@@ -1,7 +1,5 @@
 #!/usr/bin/env node
 
-// Simple red/blue fade with Node and opc.js
-
 var OPC = new require('./opc')
 var client = new OPC(process.env.FADECANDY_SERVER || 'localhost', 7890);
 var model = OPC.loadModel('./layout.json');
@@ -21,7 +19,7 @@ app.get('/mode/:mode/:mode_value', function (req, res) {
     mode = req.params.mode;
     mode_value = req.params.mode_value;
     console.log("mode set to '" + mode + " with value " + mode_value);
-    res.send("mode set to 'color' with value " + mode_value);
+    res.send("mode set to '" + mode + " with value " + mode_value);
 })
 
 app.get('/mode/:mode', function (req, res) {
@@ -120,7 +118,7 @@ function draw() {
             break;
         case "particle_trail":
             var time = 0.009 * millis;
-            var numParticles = 200;
+            var numParticles = 50;
             var particles = [];
 
             particles[0] = {
@@ -134,14 +132,14 @@ function draw() {
                 var s = i / numParticles;
 
                 var radius = 0.2 + 0.8 * s;
-                var theta = time + 0.04 * i;
+                var theta = time + 8 * s;
                 var x = 1.5 * radius * Math.cos(theta) + 1.0 * Math.sin(time * 0.05);
                 var y = radius * Math.sin(theta + 10.0 * Math.sin(theta * 0.15));
                 var hue = time * 0.01 + s * 0.2;
 
                 particles[i] = {
                     point: [x, 0, y],
-                    intensity: 0.2 * s,
+                    intensity: 40.0 / numParticles * s, // Assume at least 40 particles...
                     falloff: 100,
                     color: OPC.hsv(hue, 0.5, 0.8)
                 };
