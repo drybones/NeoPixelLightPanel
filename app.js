@@ -2,7 +2,7 @@
 
 var OPC = new require('./opc')
 var client = new OPC(process.env.FADECANDY_SERVER || 'localhost', 7890);
-var model = OPC.loadModel('./layout.json');
+var model = OPC.loadModel(__dirname + '/layout.json');
 var express = require('express');
 var app = express();
 
