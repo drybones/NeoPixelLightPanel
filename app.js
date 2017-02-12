@@ -7,7 +7,7 @@ var express = require('express');
 var app = express();
 
 var NUM_PIXELS = 240;
-var mode = null;
+var mode = process.env.LIGHTPANEL_DEFAULT_MODE || null ;
 var mode_value = null;
 
 app.use(express.static(__dirname + '/site'));
@@ -118,12 +118,12 @@ function draw() {
             break;
         case "particle_trail":
             var time = 0.009 * millis;
-            var numParticles = 50;
+            var numParticles = 100;
             var particles = [];
 
             particles[0] = {
                 point: [],          // Arbitrary location
-                intensity: 0.07,
+                intensity: 0.1,
                 falloff: 0,         // No falloff, particle has infinite size
                 color:OPC.hsv(time * 0.01, 0.3, 0.8)
             };
@@ -139,7 +139,7 @@ function draw() {
 
                 particles[i] = {
                     point: [x, 0, y],
-                    intensity: 40.0 / numParticles * s, // Assume at least 40 particles...
+                    intensity: 50.0 / numParticles * s, // Assume at least 40 particles...
                     falloff: 100,
                     color: OPC.hsv(hue, 0.5, 0.8)
                 };
