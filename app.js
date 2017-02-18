@@ -5,6 +5,7 @@ var client = new OPC(process.env.FADECANDY_SERVER || 'localhost', 7890);
 var model = OPC.loadModel(__dirname + '/layout.json');
 var express = require('express');
 var app = express();
+var shaders = require('./shaders.js');
 
 var NUM_PIXELS = 240;
 var mode = process.env.LIGHTPANEL_DEFAULT_MODE || null ;
@@ -44,6 +45,7 @@ function draw() {
                 client.setPixel(pixel, 0, 0, 0);
             }
             break;
+
         case "color":
             for (var pixel = 0; pixel < NUM_PIXELS; pixel++)
             {
@@ -55,6 +57,7 @@ function draw() {
                 }
             }
             break;
+
         case "red_alert":
             for (var pixel = 0; pixel < NUM_PIXELS; pixel++)
             {
@@ -64,6 +67,7 @@ function draw() {
                 client.setPixel(pixel, red, 0, 0);
             }
             break;
+
         case "rainbow":
             for(var pixel = 0; pixel < NUM_PIXELS; pixel++) {
                 var h = Math.floor((256 * (pixel % 30) / 30.0 + millis * 0.1 + 3*pixel/30) % 256);
@@ -71,27 +75,33 @@ function draw() {
                 client.setPixel(pixel, c.r, c.g, c.b);
             }
             break;
+
         case "red_pulse":
-            for(var pixel = 0; pixel < NUM_PIXELS; pixel++) {
-                var x = (pixel % 30) - 14.5;
-                var y = 1.5*(Math.floor(pixel / 30) - 3.5);
-                var r = Math.sqrt(x*x + y*y);
-                var red = 128 + 96 * Math.sin(millis * 0.002 - r * 0.2);
-                client.setPixel(pixel, red, 0, 0);
-            }
+            var options = {
+                freq: 0.5,
+                lambda: 0.3,
+                min: {r: 32, g: 0, b: 0},
+                max: {r: 224, g: 0, b: 0},
+                delta: {r: 0.0, g: 0.0, b: 0.0}
+            };
+            client.mapPixels(function (p) {
+                return shaders.pulse(p, options, millis);
+            }, model);
             break;
+
         case "cool_pulse":
-            for(var pixel = 0; pixel < NUM_PIXELS; pixel++) {
-                var x = (pixel % 30) - 14.5;
-                var y = 1.5*(Math.floor(pixel / 30) - 3.5);
-                var r = Math.sqrt(x*x + y*y);
-                var red = 0.2 * (64 + 36 * Math.sin(millis * 0.002 - r * 0.2 + 0.1));
-                var green = 0.8 * (64 + 36 * Math.sin(millis * 0.002 - r * 0.2 - 0.3));
-                var blue = 64 + 36 * Math.sin(millis * 0.002 - r * 0.2);
-                
-                client.setPixel(pixel, red, green, blue);
-            }
+            var options = {
+                freq: 0.2,
+                lambda: 1.0,
+                min: {r: 5, g: 22, b: 28},
+                max: {r: 20, g: 80, b: 100},
+                delta: {r: 0.2, g: -0.3, b: 0.0}
+            };
+            client.mapPixels(function (p) {
+                return shaders.pulse(p, options, millis);
+            }, model);
             break;
+
         case "wave":
             for (var pixel = 0; pixel < NUM_PIXELS; pixel++)
             {
@@ -103,6 +113,7 @@ function draw() {
                 client.setPixel(pixel, red, green, blue);
             }
             break;
+
         case "sun":
             for(var pixel = 0; pixel < NUM_PIXELS; pixel++) {
                 var x = (pixel % 30) - 14.5;
@@ -116,9 +127,10 @@ function draw() {
                 client.setPixel(pixel, red, green, blue);
             }
             break;
+            
         case "particle_trail":
             var time = 0.009 * millis;
-            var numParticles = 100;
+            var numParticles = 50;
             var particles = [];
 
             particles[0] = {
