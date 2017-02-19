@@ -50,7 +50,7 @@ function draw() {
         case "red_pulse":
         case "cool_pulse":
         case "particle_trail":
-        case "dispurtion":
+        case "dispersion":
         case "sun":
             shader[mode]();
             break;
