@@ -57,7 +57,7 @@ Shader.prototype.cool_pulse = function()
     });
 }
 
-Shader.prototype.dispurtion = function()
+Shader.prototype.dispersion = function()
 {
     var millis = new Date().getTime();
     for (var pixel = 0; pixel < this.model.length; pixel++)
