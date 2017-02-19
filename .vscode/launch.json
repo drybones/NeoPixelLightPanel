@@ -19,7 +19,7 @@
             "cwd": "${workspaceRoot}",
             "env": {
                 "FADECANDY_SERVER": "automation.local",
-                "LIGHTPANEL_DEFAULT_MODE": "particle_trail"
+                "LIGHTPANEL_DEFAULT_MODE": "embers"
             }
         },
         {

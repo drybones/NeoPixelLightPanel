@@ -50,6 +50,7 @@ function draw() {
         case "red_pulse":
         case "cool_pulse":
         case "particle_trail":
+        case "embers":
         case "dispersion":
         case "sun":
             shader[mode]();
@@ -57,13 +58,11 @@ function draw() {
 
         case "off":
         default:
-            if(mode && (mode != "off"))
-            {
+            if(mode && (mode != "off")) {
                 console.log("Unrecognised mode '" + mode + "'. Switching off.");
                 mode = "off";
             }
-            if(mode)
-            {
+            if(mode) {
                 shader.color("000000");
                 mode = null;
                 console.log("Lights off. Stopping updates.")

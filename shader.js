@@ -60,8 +60,7 @@ Shader.prototype.cool_pulse = function()
 Shader.prototype.dispersion = function()
 {
     var millis = new Date().getTime();
-    for (var pixel = 0; pixel < this.model.length; pixel++)
-    {
+    for (var pixel = 0; pixel < this.model.length; pixel++) {
         var t = (pixel % 30 + Math.floor(pixel/30)*0.3) * 0.2 - millis * 0.002;
         var red = 128 + 96 * Math.sin(t);
         var green = 128 + 96 * Math.sin(t + 0.1);
@@ -121,6 +120,50 @@ Shader.prototype.particle_trail = function()
     }
 
     this.client.mapParticles(particles, this.model);
+}
+
+Shader.prototype.embers = function() {
+    var millis = new Date().getTime();
+    var time = 0.009 * millis;
+
+    if(!this.particles) {
+        this.particles = [];
+        this.particles[0] = {
+                point: [],
+                intensity: 0.08,
+                falloff: 0.0,        
+                color: this.OPC.hsv(0.05, 0.8, 1.0)
+        }
+    }
+
+    for(var i = 1; i < 30; i++) {
+        var p = this.particles[i];
+        if(!p || !p.born)
+        {
+            p = {
+                origin: [Math.random() * 8.0 - 4.0, 0, Math.random() * 2.0 - 0.0],
+                point: [],
+                intensity: 0.0,
+                falloff: 20.0,        
+                color: this.OPC.hsv(Math.random() * 0.1, 1.0, 1.0),
+                velocity: [0.6 * (Math.random() - 0.5), 0, -(Math.random() * 0.4 + 0.2)],
+                born: millis,
+                death: millis + Math.random() * 5000 + 3000
+            }
+            this.particles[i] = p;
+        }
+        p.point[0] = p.origin[0] + p.velocity[0] * (millis - p.born) / 1000;
+        p.point[1] = p.origin[1] + p.velocity[1] * (millis - p.born) / 1000;
+        p.point[2] = p.origin[2] + p.velocity[2] * (millis - p.born) / 1000;
+        p.intensity = 0.5 * Math.sin((millis - p.born)/(p.death - p.born) * Math.PI);
+
+        if(millis > p.death) {
+            p.intensity = 0.0;
+            p.born = null;
+        }
+    }
+
+    this.client.mapParticles(this.particles, this.model);    
 }
 
 
