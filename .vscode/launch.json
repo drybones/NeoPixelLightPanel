@@ -18,7 +18,7 @@
             "program": "${workspaceRoot}/app.js",
             "cwd": "${workspaceRoot}",
             "env": {
-                "FADECANDY_SERVER": "raspberrypi.local",
+                "FADECANDY_SERVER": "automation.local",
                 "LIGHTPANEL_DEFAULT_MODE": "particle_trail"
             }
         },
