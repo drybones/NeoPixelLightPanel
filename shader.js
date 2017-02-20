@@ -3,6 +3,8 @@ var Shader = function(OPC, client, model)
     this.OPC = OPC;
     this.client = client;
     this.model = model;
+    this.particles = [];
+    this.particles.mode = null;
 }
 
 Shader.prototype.color = function(mode_value)
@@ -124,10 +126,10 @@ Shader.prototype.particle_trail = function()
 
 Shader.prototype.embers = function() {
     var millis = new Date().getTime();
-    var time = 0.009 * millis;
 
-    if(!this.particles) {
+    if(!this.particles.mode || this.particles.mode != "embers") {
         this.particles = [];
+        this.particles.mode = "embers";
         this.particles[0] = {
                 point: [],
                 intensity: 0.08,
@@ -138,14 +140,13 @@ Shader.prototype.embers = function() {
 
     for(var i = 1; i < 30; i++) {
         var p = this.particles[i];
-        if(!p || !p.born)
-        {
+        if(!p || !p.born) {
             p = {
                 origin: [Math.random() * 8.0 - 4.0, 0, Math.random() * 2.0 - 0.0],
                 point: [],
                 intensity: 0.0,
                 falloff: 20.0,        
-                color: this.OPC.hsv(Math.random() * 0.1, 1.0, 1.0),
+                color: this.OPC.hsv(Math.random() * 0.11 - 0.02, 1.0, 1.0),
                 velocity: [0.6 * (Math.random() - 0.5), 0, -(Math.random() * 0.4 + 0.2)],
                 born: millis,
                 death: millis + Math.random() * 5000 + 3000
@@ -155,7 +156,7 @@ Shader.prototype.embers = function() {
         p.point[0] = p.origin[0] + p.velocity[0] * (millis - p.born) / 1000;
         p.point[1] = p.origin[1] + p.velocity[1] * (millis - p.born) / 1000;
         p.point[2] = p.origin[2] + p.velocity[2] * (millis - p.born) / 1000;
-        p.intensity = 0.5 * Math.sin((millis - p.born)/(p.death - p.born) * Math.PI);
+        p.intensity = 0.7 * Math.sin((millis - p.born)/(p.death - p.born) * Math.PI);
 
         if(millis > p.death) {
             p.intensity = 0.0;
@@ -166,6 +167,56 @@ Shader.prototype.embers = function() {
     this.client.mapParticles(this.particles, this.model);    
 }
 
+Shader.prototype.candy_sparkler = function() {
+    var millis = new Date().getTime();
+
+    if(!this.particles.mode || this.particles.mode != "candy_sparkler") {
+        this.particles = [];
+        this.particles.mode = "candy_sparkler";
+        this.particles[0] = {
+                point: [],
+                intensity: 0.02,
+                falloff: 0.0,        
+                color: this.OPC.hsv(0.0, 0.0, 1.0)
+        }
+    }
+
+    for(var i = 1; i < 50; i++) {
+        var p = this.particles[i];
+        if(!p || !p.born) {
+            var v_r = Math.random() * 0.5 + 1.5;
+            var v_theta = Math.random() * 2 * Math.PI;
+            p = {
+                origin: [0, 0, 0],
+                point: [],
+                intensity: 0.0005,
+                falloff: 30.0,        
+                color: this.OPC.hsv(Math.random() * 1.0, 1.0, 1.0),
+                velocity: [1.5 * v_r * Math.cos(v_theta), 0, 1.0 * v_r * Math.sin(v_theta)],
+                born: millis,
+                death: millis + Math.random() * 1000 + 1000
+            }
+            this.particles[i] = p;
+        }
+        p.point[0] = p.origin[0] + p.velocity[0] * (millis - p.born) / 1000;
+        p.point[1] = p.origin[1] + p.velocity[1] * (millis - p.born) / 1000;
+        p.point[2] = p.origin[2] + p.velocity[2] * (millis - p.born) / 1000;
+        var life_fraction = (millis - p.born)/(p.death - p.born);
+        var pivot = 0.25;
+        if(life_fraction < pivot) {
+            p.intensity = life_fraction/pivot;
+        } else {
+            p.intensity = 1.0-(life_fraction-pivot)/(1-pivot);
+        }
+
+        if(millis > p.death) {
+            p.intensity = 0.0;
+            p.born = null;
+        }
+    }
+
+    this.client.mapParticles(this.particles, this.model);    
+}
 
 Shader.prototype._pulse = function(options) {
     var millis = new Date().getTime();

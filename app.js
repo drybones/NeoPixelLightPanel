@@ -51,6 +51,7 @@ function draw() {
         case "cool_pulse":
         case "particle_trail":
         case "embers":
+        case "candy_sparkler":
         case "dispersion":
         case "sun":
             shader[mode]();
