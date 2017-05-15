@@ -118,7 +118,7 @@ OPC.prototype.mapPixels = function(fn, model)
  * Client convenience methods
  */
 
-OPC.prototype.mapParticles = function(particles, model)
+OPC.prototype.mapParticles = function(particles, model, intensityFunction)
 {
     // Set all pixels, by mapping a particle system to each element of "model".
     // The particles include parameters 'point', 'intensity', 'falloff', and 'color'.
@@ -138,12 +138,14 @@ OPC.prototype.mapParticles = function(particles, model)
             var dist2 = dx * dx + dy * dy + dz * dz;
 
             // Particle edge falloff
-            var intensity = particle.intensity / (1 + particle.falloff * dist2);
+            var f = intensityFunction || function(distanceSq, intensity, falloff) { return intensity / (1 + falloff * distanceSq)}
+            var intensity = f(dist2, particle.intensity, particle.falloff);
 
             // Intensity scaling
             r += particle.color[0] * intensity;
             g += particle.color[1] * intensity;
             b += particle.color[2] * intensity;
+
         }
 
         return [r, g, b];

@@ -42,19 +42,16 @@ function draw() {
 
     switch(mode) {
         case "color":
-            shader.color(mode_value);
-            break;
-
-        case "red_alert":
         case "rainbow":
         case "red_pulse":
         case "cool_pulse":
         case "particle_trail":
         case "embers":
         case "candy_sparkler":
+        case "pastel_spots":
         case "dispersion":
         case "sun":
-            shader[mode]();
+            shader[mode](mode_value);
             break;
 
         case "off":

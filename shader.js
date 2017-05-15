@@ -26,17 +26,6 @@ Shader.prototype.rainbow = function()
     });
 }
 
-Shader.prototype.red_alert = function()
-{
-    this._pulse({
-        freq: 0.5,
-        lambda: 1000, // No shape, just pulsing
-        min: {r: 32, g: 0, b: 0},
-        max: {r: 255, g: 0, b: 0},
-        delta: {r: 0.0, g: 0.0, b: 0.0}
-    });
-}
-
 Shader.prototype.red_pulse = function()
 {
     this._pulse({
@@ -186,15 +175,15 @@ Shader.prototype.candy_sparkler = function() {
         if(!p || !p.born) {
             var v_r = Math.random() * 0.5 + 1.5;
             var v_theta = Math.random() * 2 * Math.PI;
+            var delay = p ? 0 : Math.random() * 2000; // First time through don't start them all immediately
             p = {
                 origin: [0, 0, 0],
                 point: [],
-                intensity: 0.0005,
                 falloff: 30.0,        
                 color: this.OPC.hsv(Math.random() * 1.0, 1.0, 1.0),
                 velocity: [1.5 * v_r * Math.cos(v_theta), 0, 1.0 * v_r * Math.sin(v_theta)],
-                born: millis,
-                death: millis + Math.random() * 1000 + 1000
+                born: millis + delay,
+                death: millis + delay + Math.random() * 1000 + 1000
             }
             this.particles[i] = p;
         }
@@ -204,7 +193,7 @@ Shader.prototype.candy_sparkler = function() {
         var life_fraction = (millis - p.born)/(p.death - p.born);
         var pivot = 0.25;
         if(life_fraction < pivot) {
-            p.intensity = life_fraction/pivot;
+            p.intensity = Math.max(life_fraction/pivot, 0); // Can be < 0 if the particle birth is delayed
         } else {
             p.intensity = 1.0-(life_fraction-pivot)/(1-pivot);
         }
@@ -216,6 +205,59 @@ Shader.prototype.candy_sparkler = function() {
     }
 
     this.client.mapParticles(this.particles, this.model);    
+}
+
+Shader.prototype.pastel_spots = function() {
+    var millis = new Date().getTime();
+
+    var hue = millis/70000 % 1.0;
+
+    if(!this.particles.mode || this.particles.mode != "pastel_spots") {
+        this.particles = [];
+        this.particles.mode = "pastel_spots";
+        this.particles[0] = {
+            point: [],
+            intensity: 0.0,
+            falloff: 0.0
+        }
+    }
+    this.particles[0].color = this.OPC.hsv(hue, 1.0, 1.0);
+
+    var transit_radius = 9.0;
+    var avg_speed = 0.7;
+
+    for(var i = 1; i < 10; i++) {
+        var p = this.particles[i];
+        if(!p || !p.born) {
+            // Start particle on circumferance outside the viewport, aim inwards
+            var theta = Math.random() * 2 * Math.PI;
+            var v_r = avg_speed + 0.2 * (Math.random()-0.5);
+            var v_theta = theta + Math.PI + Math.random() * 0.1;
+            var delay = p ? 0 : Math.random() * transit_radius*2.0/avg_speed*1000; // First time through don't start them all immediately
+            p = {
+                origin: [transit_radius * Math.cos(theta), 0, transit_radius * Math.sin(theta)],
+                velocity: [v_r * Math.cos(v_theta), 0, v_r * Math.sin(v_theta)],
+                point: [],
+                color: this.OPC.hsv(0.2 * (Math.random()-0.5) + hue, 0.4, 1.0),
+                intensity: 0.6,
+                born: millis + delay,
+                death: millis + delay + transit_radius*2.0/v_r*1000
+            }
+            this.particles[i] = p;
+        }
+        p.point[0] = p.origin[0] + p.velocity[0] * (millis - p.born) / 1000;
+        p.point[1] = p.origin[1] + p.velocity[1] * (millis - p.born) / 1000;
+        p.point[2] = p.origin[2] + p.velocity[2] * (millis - p.born) / 1000;
+        p.intensity = 0.6;
+
+        var dist = Math.sqrt(p.point[0]^2 + p.point[1]^2 + p.point[2]^2);
+        if(p.death < millis) {
+            p.intensity = 0.0;
+            p.born = null;
+        }
+    }
+
+    this.client.mapParticles(this.particles, this.model, Shader.discParticle);    
 }
 
 Shader.prototype._pulse = function(options) {
@@ -243,6 +285,17 @@ Shader.hexToRgb = function(hex) {
     } : null;
 }
 
+Shader.discParticle = function(distanceSq, intensity, falloff) {
+    var size = 0.3;
+    var feather = 0.6;  
+    if(distanceSq <= size) {
+        return intensity
+    } else if (distanceSq <= size + feather) {
+        return intensity * (1-(distanceSq - size)/(feather))
+    } else {
+        return 0;
+    }
+}
 
 module.exports = Shader;
 
