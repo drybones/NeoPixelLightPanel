@@ -13,6 +13,29 @@ var app = express();
 var mode = process.env.LIGHTPANEL_DEFAULT_MODE || null ;
 var mode_value = process.env.LIGHTPANEL_DEFAULT_MODE_VALUE || null;
 
+var wave_config = {
+    waves: [
+        {
+            color: 'ff0000',
+            freq: 0.3,
+            lambda: 0.1,
+            delta: 0.0
+        },
+        {
+            color: '00ff00',
+            freq: 0.2,
+            lambda: 0.2,
+            delta: 0.0
+        },        
+        {
+            color: '0000ff',
+            freq: 0.1,
+            lambda: 0.3,
+            delta: 0.0
+        }
+    ]
+};
+
 app.use(express.static(__dirname + '/site'));
 app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js')); // redirect bootstrap JS
 app.use('/js', express.static(__dirname + '/node_modules/jquery/dist')); // redirect JS jQuery
@@ -52,6 +75,10 @@ function draw() {
         case "dispersion":
         case "sun":
             shader[mode](mode_value);
+            break;
+
+        case "interactive_wave":
+            shader[mode](wave_config);
             break;
 
         case "off":

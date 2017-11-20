@@ -7,6 +7,26 @@ var Shader = function(OPC, client, model)
     this.particles.mode = null;
 }
 
+Shader.prototype.interactive_wave = function(config)
+{
+    var millis = new Date().getTime();
+    for (var pixel = 0; pixel < this.model.length; pixel++) {
+        var p = this.model[pixel];
+        var red = 0;
+        var green = 0;
+        var blue = 0;
+        config.waves.forEach(wave => {
+            var rgb = this._wave(p, wave, millis);
+            red += rgb[0];
+            green += rgb[1];
+            blue += rgb[2];
+            }
+        )
+        this.client.setPixel(pixel, red, green, blue);
+    }
+    this.client.writePixels();    
+}
+
 Shader.prototype.color = function(mode_value)
 {
     var rgb = Shader.hexToRgb(mode_value) || {r: 0, g: 0, b: 0};
@@ -271,6 +291,17 @@ Shader.prototype._pulse = function(options) {
         var blue = options.min.b + (options.max.b - options.min.b) * 0.5 * (Math.sin(theta + options.delta.b) + 1);
         return [red, green, blue];
     }, this.model);
+}
+
+
+Shader.prototype._wave = function(p, options, millis) {
+    var r = Math.sqrt(p.point[0]*p.point[0] + p.point[2]*p.point[2]);
+    var theta = millis * 0.00628 * options.freq - r / options.lambda;
+    var rgb = Shader.hexToRgb(options.color);
+    var red = rgb.r * 0.5 * (Math.sin(theta + options.delta) + 1);
+    var green = rgb.g * 0.5 * (Math.sin(theta + options.delta) + 1);
+    var blue = rgb.b * 0.5 * (Math.sin(theta + options.delta) + 1);
+    return [red, green, blue];
 }
 
 // Convenience functions
