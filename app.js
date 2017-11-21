@@ -10,9 +10,14 @@ var shader = new Shader(OPC, client, model);
 var express = require('express');
 var app = express();
 
+var bodyParser = require('body-parser')
+
+var storage = require('node-persist');
+
 var mode = process.env.LIGHTPANEL_DEFAULT_MODE || null ;
 var mode_value = process.env.LIGHTPANEL_DEFAULT_MODE_VALUE || null;
 
+const WAVE_CONFIG_KEY = 'wave_config';
 var wave_config = {
     waves: [
         {
@@ -40,6 +45,26 @@ app.use(express.static(__dirname + '/site'));
 app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js')); // redirect bootstrap JS
 app.use('/js', express.static(__dirname + '/node_modules/jquery/dist')); // redirect JS jQuery
 app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css')); // redirect CSS bootstrap
+app.use(bodyParser.json());
+
+storage.init({interval: 1000}).then(function() {
+    storage.getItem(WAVE_CONFIG_KEY).then(function(value) {
+        if(value) {
+            wave_config = value;
+        } else {
+            storage.setItem(WAVE_CONFIG_KEY, wave_config);
+        }
+    });
+});
+
+app.get('/api/wave_config', function(req, res) {
+    res.json(wave_config);
+})
+app.put('/api/wave_config', function(req, res) {
+    wave_config = req.body;
+    storage.setItem('wave_config', wave_config);
+    res.send(200);
+})
 
 app.get('/mode/:mode/:mode_value', function (req, res) {
     mode = req.params.mode;
