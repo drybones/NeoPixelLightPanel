@@ -24,19 +24,33 @@ var wave_config = {
             color: 'ff0000',
             freq: 0.3,
             lambda: 0.1,
-            delta: 0.0
+            delta: 0.0,
+            x: 0,
+            y: 0,
+            min: 0.2,
+            max: 1.0,
         },
         {
             color: '00ff00',
             freq: 0.2,
             lambda: 0.2,
-            delta: 0.0
+            delta: 0.0,
+            x: 0,
+            y: 0,
+            min: 0.2,
+            max: 1.0,
         },        
         {
             color: '0000ff',
             freq: 0.1,
             lambda: 0.3,
-            delta: 0.0
+            delta: 0.0,
+            min: 0.2,
+            max: 1.0,
+            x: 0,
+            y: 0,
+            min: 0.2,
+            max: 1.0,
         }
     ]
 };
