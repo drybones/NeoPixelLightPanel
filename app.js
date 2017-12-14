@@ -19,46 +19,28 @@ var mode_value = process.env.LIGHTPANEL_DEFAULT_MODE_VALUE || null;
 
 const WAVE_CONFIG_KEY = 'wave_config';
 var wave_config = {
-    waves: [
-        {
-            color: 'ff0000',
-            freq: 0.3,
-            lambda: 0.1,
-            delta: 0.0,
-            x: 0,
-            y: 0,
-            min: 0.2,
-            max: 1.0,
-        },
-        {
-            color: '00ff00',
-            freq: 0.2,
-            lambda: 0.2,
-            delta: 0.0,
-            x: 0,
-            y: 0,
-            min: 0.2,
-            max: 1.0,
-        },        
-        {
-            color: '0000ff',
-            freq: 0.1,
-            lambda: 0.3,
-            delta: 0.0,
-            min: 0.2,
-            max: 1.0,
-            x: 0,
-            y: 0,
-            min: 0.2,
-            max: 1.0,
-        }
-    ]
+    null: {
+        waves: [
+            {
+                color: 'ffffff',
+                freq: 0.3,
+                lambda: 0.3,
+                delta: 0.0,
+                x: 0,
+                y: 0,
+                min: 0.2,
+                max: 0.4,
+            }      
+        ]
+    }
 };
 
 app.use(express.static(__dirname + '/site'));
-app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js')); // redirect bootstrap JS
 app.use('/js', express.static(__dirname + '/node_modules/jquery/dist')); // redirect JS jQuery
+app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js')); // redirect bootstrap JS
 app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css')); // redirect CSS bootstrap
+app.use('/js', express.static(__dirname + '/node_modules/bootstrap-slider/dist'));
+app.use('/css', express.static(__dirname + '/node_modules/bootstrap-slider/dist/css'));
 app.use(bodyParser.json());
 
 storage.init({interval: 1000}).then(function() {
@@ -71,12 +53,20 @@ storage.init({interval: 1000}).then(function() {
     });
 });
 
-app.get('/api/wave_config', function(req, res) {
+app.get('/api/wave_config/:config_name', function(req, res) {
+    res.json(wave_config[req.params.config_name]);
+})
+app.get('/api/wave_config/', function(req, res) {
     res.json(wave_config);
 })
-app.put('/api/wave_config', function(req, res) {
+app.put('/api/wave_config/:config_name', function(req, res) {
+    wave_config[req.params.config_name] = req.body;
+    storage.setItem(WAVE_CONFIG_KEY, wave_config);
+    res.send(200);
+})
+app.put('/api/wave_config/', function(req, res) {
     wave_config = req.body;
-    storage.setItem('wave_config', wave_config);
+    storage.setItem(WAVE_CONFIG_KEY, wave_config);
     res.send(200);
 })
 
@@ -117,7 +107,7 @@ function draw() {
             break;
 
         case "interactive_wave":
-            shader[mode](wave_config);
+            shader[mode](wave_config[mode_value]);
             break;
 
         case "off":
