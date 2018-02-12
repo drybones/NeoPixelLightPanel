@@ -19,7 +19,7 @@
             "cwd": "${workspaceRoot}",
             "env": {
                 "FADECANDY_SERVER": "automation.local",
-                "LIGHTPANEL_DEFAULT_MODE": "interactive_wave"
+                "LIGHTPANEL_DEFAULT_MODE": "off"
             }
         },
         {

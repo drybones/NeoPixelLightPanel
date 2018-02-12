@@ -4,12 +4,13 @@
   "description": "Simple web controlled NeoPixel light panel",
   "main": "app.js",
   "dependencies": {
+    "body-parser": "^1.18.2",
     "bootstrap": "^3.3.7",
     "bootstrap-slider": "^10.0.0",
     "express": "^4.14.0",
     "jquery": "^3.1.1",
-    "body-parser": "^1.18.2",
-    "node-persist": "^2.1.0"
+    "node-persist": "^2.1.0",
+    "shortid": "^2.2.8"
   },
   "devDependencies": {},
   "scripts": {

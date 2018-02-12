@@ -15,8 +15,8 @@ Shader.prototype.interactive_wave = function(config)
         var red = 0;
         var green = 0;
         var blue = 0;
-        config.waves.forEach(wave => {
-            var rgb = this._wave(p, wave, millis);
+        config.wavelets.forEach(wavelet => {
+            var rgb = this._wavelet(p, wavelet, millis);
             red += rgb[0];
             green += rgb[1];
             blue += rgb[2];
@@ -25,7 +25,7 @@ Shader.prototype.interactive_wave = function(config)
     }
     this.client.writePixels();    
 }
-Shader.prototype._wave = function(p, options, millis) {
+Shader.prototype._wavelet = function(p, options, millis) {
     var r = Math.sqrt((p.point[0]-options.x)*(p.point[0]-options.x) + (p.point[2]+options.y)*(p.point[2]+options.y)); // y coordinate is reversed for my layout
     var theta = millis * 0.00628 * options.freq - r / options.lambda;
     var rgb = Shader.hexToRgb(options.color);

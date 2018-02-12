@@ -1,0 +1,281 @@
+[
+    {
+        "id": "SyADMBJvz",
+        "name": "Warm Vignette",
+        "wavelets": [
+            {
+                "id": "BJuyKFJPz",
+                "color": "#f7c689",
+                "freq": 0,
+                "lambda": 3,
+                "delta": 0,
+                "x": 0,
+                "y": 0,
+                "min": 0.14,
+                "max": 1
+            }
+        ]
+    },
+    {
+        "id": "r15jZqyDM",
+        "name": "Apple Skin",
+        "wavelets": [
+            {
+                "id": "BknoWc1wG",
+                "color": "#54bf54",
+                "freq": 0.2,
+                "lambda": 0.5,
+                "delta": 0,
+                "x": 2,
+                "y": 0.8,
+                "min": 0.1,
+                "max": 0.29
+            },
+            {
+                "id": "SyY3WcyPf",
+                "color": "#c94238",
+                "freq": 0.3,
+                "lambda": 0.5,
+                "delta": 0,
+                "x": -2,
+                "y": -0.9,
+                "min": 0.1,
+                "max": 0.42
+            }
+        ]
+    },
+    {
+        "id": "r1KTEqJDz",
+        "name": "Pastel Rainbow",
+        "wavelets": [
+            {
+                "id": "S1Qh85kwf",
+                "color": "#ab3636",
+                "freq": 0.2,
+                "lambda": 0.5,
+                "delta": 0,
+                "x": 0,
+                "y": 0,
+                "min": 0,
+                "max": 1
+            },
+            {
+                "id": "H14h8cywG",
+                "color": "#233ba8",
+                "freq": 0.2,
+                "lambda": 0.5,
+                "delta": 2.1,
+                "x": 0,
+                "y": 0,
+                "min": 0,
+                "max": 1
+            },
+            {
+                "id": "S1SnUq1vz",
+                "color": "#2da82d",
+                "freq": 0.2,
+                "lambda": 0.5,
+                "delta": 4.2,
+                "x": 0,
+                "y": 0,
+                "min": 0,
+                "max": 1
+            }
+        ]
+    },
+    {
+        "id": "SJF9d9yPz",
+        "name": "Dispersion",
+        "wavelets": [
+            {
+                "id": "Bk09dckPM",
+                "color": "#ff0000",
+                "freq": 0.25,
+                "lambda": 1,
+                "delta": 0,
+                "x": 1000,
+                "y": 500,
+                "min": 0.12,
+                "max": 0.87
+            },
+            {
+                "id": "BJxxFq1Dz",
+                "color": "#00ff00",
+                "freq": 0.25,
+                "lambda": 1,
+                "delta": -0.1,
+                "x": 1000,
+                "y": 500,
+                "min": 0.12,
+                "max": 0.87
+            },
+            {
+                "id": "B1i7FqkPG",
+                "color": "#0000ff",
+                "freq": 0.25,
+                "lambda": 1,
+                "delta": -0.4,
+                "x": 1000,
+                "y": 500,
+                "min": 0.1,
+                "max": 0.7
+            }
+        ]
+    },
+    {
+        "id": "Bkvvt51wG",
+        "name": "Orange and Teal",
+        "wavelets": [
+            {
+                "id": "Bk09dckPM",
+                "color": "#ff8800",
+                "freq": 0.4,
+                "lambda": 0.8,
+                "delta": 0,
+                "x": -0.7,
+                "y": 0,
+                "min": 0,
+                "max": 0.7
+            },
+            {
+                "id": "B10jK9yvM",
+                "color": "#0088ff",
+                "freq": 0.4,
+                "lambda": 0.8,
+                "delta": 3.14,
+                "x": 0.7,
+                "y": 0,
+                "min": 0,
+                "max": 0.7
+            }
+        ]
+    },
+    {
+        "id": "HJ_f5ckwf",
+        "name": "Warm Glow",
+        "wavelets": [
+            {
+                "id": "rk5G5qyDM",
+                "color": "#ff7400",
+                "freq": 0.3,
+                "lambda": 0.2,
+                "delta": 0,
+                "x": -1.4,
+                "y": -2.5,
+                "min": 0,
+                "max": 0.19
+            },
+            {
+                "id": "H16Hc5JPz",
+                "color": "#ffbd4b",
+                "freq": 0.2,
+                "lambda": 0.3,
+                "delta": 0,
+                "x": 1.8,
+                "y": -0.4,
+                "min": 0,
+                "max": 0.22
+            },
+            {
+                "id": "rJItq5ywM",
+                "color": "#ff2222",
+                "freq": 0.2,
+                "lambda": 1.5,
+                "delta": 0,
+                "x": 0,
+                "y": 0,
+                "min": 0,
+                "max": 0.13
+            },
+            {
+                "id": "SJop951vG",
+                "color": "#ff3e00",
+                "freq": 0,
+                "lambda": 10,
+                "delta": 0,
+                "x": 0,
+                "y": 0,
+                "min": 0.18,
+                "max": 0.18
+            },
+            {
+                "id": "HysSs9JPz",
+                "color": "#ffc94a",
+                "freq": 1.1,
+                "lambda": 0.2,
+                "delta": 0,
+                "x": 1,
+                "y": -1,
+                "min": 0,
+                "max": 0.09
+            }
+        ]
+    },
+    {
+        "id": "ryHnj51Dz",
+        "name": "Christmas Tartan",
+        "wavelets": [
+            {
+                "id": "S1mWnckvz",
+                "color": "#ff0000",
+                "freq": 0,
+                "lambda": 0.15,
+                "delta": 0,
+                "x": 1000.2,
+                "y": 0,
+                "min": 0,
+                "max": 0.3
+            },
+            {
+                "id": "SJVXpqJDf",
+                "color": "#ff0000",
+                "freq": 0,
+                "lambda": 0.15,
+                "delta": 0,
+                "x": 0,
+                "y": 1000.2,
+                "min": 0,
+                "max": 0.3
+            },
+            {
+                "id": "BkE6a9kDz",
+                "color": "#7dff00",
+                "freq": 0,
+                "lambda": 0.15,
+                "delta": 3.14,
+                "x": 1000.2,
+                "y": 0,
+                "min": 0,
+                "max": 0.2
+            },
+            {
+                "id": "Byv7AckDz",
+                "color": "#48ff00",
+                "freq": 0,
+                "lambda": 0.15,
+                "delta": 3.14,
+                "x": 0,
+                "y": 1000.2,
+                "min": 0,
+                "max": 0.2
+            }
+        ]
+    },
+    {
+        "id": "SkVEkikvf",
+        "name": "Solid Light",
+        "wavelets": [
+            {
+                "id": "B1hNkiJDf",
+                "color": "#ffeace",
+                "freq": 0,
+                "lambda": 10000,
+                "delta": 0,
+                "x": 0,
+                "y": 0,
+                "min": 0.66,
+                "max": 0.71
+            }
+        ]
+    }
+]

@@ -14,15 +14,21 @@ var bodyParser = require('body-parser')
 
 var storage = require('node-persist');
 
+var shortid = require('shortid');
+
 var mode = process.env.LIGHTPANEL_DEFAULT_MODE || null ;
 var mode_value = process.env.LIGHTPANEL_DEFAULT_MODE_VALUE || null;
 
 const WAVE_CONFIG_KEY = 'wave_config';
-var wave_config = {
-    null: {
-        waves: [
+
+var wave_config = [
+    {
+        id: shortid.generate(),
+        name: "default",
+        wavelets: [
             {
-                color: 'ffffff',
+                id: shortid.generate(),
+                color: '#ffffff',
                 freq: 0.3,
                 lambda: 0.3,
                 delta: 0.0,
@@ -33,7 +39,7 @@ var wave_config = {
             }      
         ]
     }
-};
+];
 
 app.use(express.static(__dirname + '/site'));
 app.use('/js', express.static(__dirname + '/node_modules/jquery/dist')); // redirect JS jQuery
@@ -42,6 +48,13 @@ app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
 app.use('/js', express.static(__dirname + '/node_modules/bootstrap-slider/dist'));
 app.use('/css', express.static(__dirname + '/node_modules/bootstrap-slider/dist/css'));
 app.use(bodyParser.json());
+
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
+    next();
+  });
 
 storage.init({interval: 1000}).then(function() {
     storage.getItem(WAVE_CONFIG_KEY).then(function(value) {
@@ -53,18 +66,41 @@ storage.init({interval: 1000}).then(function() {
     });
 });
 
-app.get('/api/wave_config/:config_name', function(req, res) {
-    res.json(wave_config[req.params.config_name]);
+app.get('/api/wave_configs/', function(req,res) {
+    res.json(wave_config.map(o => {
+        return { id: o.id, name: o.name };
+    }));
 })
-app.get('/api/wave_config/', function(req, res) {
-    res.json(wave_config);
+
+app.get('/api/wave_config/:config_id', function(req, res) {
+    res.json(wave_config.find(o => o.id === req.params.config_id));
 })
-app.put('/api/wave_config/:config_name', function(req, res) {
-    wave_config[req.params.config_name] = req.body;
+app.put('/api/wave_config/:config_id', function(req, res) {
+    let index = wave_config.findIndex(o => o.id === req.params.config_id);
+    if(index != -1) {
+        wave_config[index] = req.body;
+    }
+    else
+    {
+        wave_config.push(req.body);
+    }
     storage.setItem(WAVE_CONFIG_KEY, wave_config);
     res.send(200);
 })
-app.put('/api/wave_config/', function(req, res) {
+app.delete('/api/wave_config/:config_id', function(req, res) {
+    let index = wave_config.findIndex(o => o.id === req.params.config_id);
+    if(index != -1) {
+        wave_config.splice(index, 1);
+    }
+    storage.setItem(WAVE_CONFIG_KEY, wave_config);
+    
+    res.send(200);
+})
+
+app.get('/api/all_wave_config/', function(req, res) {
+    res.json(wave_config);
+})
+app.put('/api/all_wave_config/', function(req, res) {
     wave_config = req.body;
     storage.setItem(WAVE_CONFIG_KEY, wave_config);
     res.send(200);
@@ -107,7 +143,13 @@ function draw() {
             break;
 
         case "interactive_wave":
-            shader[mode](wave_config[mode_value]);
+            let config = wave_config.find(o => o.id === mode_value);
+            if(config) {
+                shader[mode](config);
+            } else {
+                console.log("Couldn't find config id "+mode_value);
+                mode = "off";
+            }
             break;
 
         case "off":
