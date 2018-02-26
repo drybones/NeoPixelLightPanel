@@ -15,7 +15,11 @@ Shader.prototype.interactive_wave = function(config)
         var red = 0;
         var green = 0;
         var blue = 0;
-        config.wavelets.forEach(wavelet => {
+        var displayWavelets = config.wavelets.filter(w => w.solo);
+        if(displayWavelets.length === 0) {
+            displayWavelets = config.wavelets;
+        }
+        displayWavelets.forEach(wavelet => {
             var rgb = this._wavelet(p, wavelet, millis);
             red += rgb[0];
             green += rgb[1];
