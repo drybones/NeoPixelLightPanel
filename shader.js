@@ -36,6 +36,14 @@ Shader.prototype._wavelet = function(p, options, millis) {
     var red = rgb.r * (options.min + (options.max - options.min) * 0.5 * (Math.sin(theta + options.delta) + 1));
     var green = rgb.g * (options.min + (options.max - options.min) * 0.5 * (Math.sin(theta + options.delta) + 1));
     var blue = rgb.b * (options.min + (options.max - options.min) * 0.5 * (Math.sin(theta + options.delta) + 1));
+
+    if(options.clip)
+    {
+        red = Math.min(Math.max(red,0),255);
+        green = Math.min(Math.max(green,0),255);
+        blue = Math.min(Math.max(blue,0),255);
+    }
+
     return [red, green, blue];
 }
 
