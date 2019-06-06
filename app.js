@@ -8,15 +8,17 @@ var Shader = require('./shader');
 var shader = new Shader(OPC, client, model);
 
 var express = require('express');
+var cors = require('cors');
 var app = express();
+app.use(cors());
 
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser');
 
 var storage = require('node-persist');
 
 var shortid = require('shortid');
 
-var mode = process.env.LIGHTPANEL_DEFAULT_MODE || null ;
+var mode = process.env.LIGHTPANEL_DEFAULT_MODE || null;
 var mode_value = process.env.LIGHTPANEL_DEFAULT_MODE_VALUE || null;
 
 const WAVE_CONFIG_KEY = 'wave_config';
@@ -48,13 +50,6 @@ app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
 app.use('/js', express.static(__dirname + '/node_modules/bootstrap-slider/dist'));
 app.use('/css', express.static(__dirname + '/node_modules/bootstrap-slider/dist/css'));
 app.use(bodyParser.json());
-
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
-    next();
-  });
 
 storage.init({interval: 1000}).then(function() {
     storage.getItem(WAVE_CONFIG_KEY).then(function(value) {
@@ -121,7 +116,7 @@ app.get('/mode/:mode', function (req, res) {
 })
 
 app.listen(3000, function () {
-  console.log('Example app listening on port 3000')
+  console.log('Lightpanel API server listening on port 3000')
 })
 
 
