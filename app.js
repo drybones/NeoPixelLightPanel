@@ -100,15 +100,17 @@ app.put('/api/all_wave_config/', function(req, res) {
 app.get('/mode/:mode/:mode_value', function (req, res) {
     mode = req.params.mode;
     mode_value = req.params.mode_value;
-    console.log("Mode set to '" + mode + " with value " + mode_value);
-    res.send("Mode set to '" + mode + " with value " + mode_value);
+    let msg = "Mode set to " + mode + " with value " + mode_value;
+    console.log(msg);
+    res.send(msg);
 })
 
 app.get('/mode/:mode', function (req, res) {
     mode = req.params.mode;
     mode_value = null;
-    console.log("Mode set to '" + mode + "'");
-    res.send("Mode set to '" + mode + "'");
+    let msg = "Mode set to " + mode;
+    console.log(msg);
+    res.send(msg);
 })
 
 app.listen(3000, function () {
