@@ -122,7 +122,7 @@ function draw() {
         case "embers":
         case "candy_sparkler":
         case "pastel_spots":
-            shader[mode](mode_value);
+            shader[mode]();
             break;
 
         case "interactive_wave":
@@ -142,7 +142,7 @@ function draw() {
                 mode = "off";
             }
             if(mode) {
-                shader.color("000000");
+                shader.off();
                 mode = null;
                 console.log("Lights off. Stopping updates.")
             }

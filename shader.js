@@ -47,8 +47,7 @@ Shader.prototype._wavelet = function(p, options, millis) {
     return [red, green, blue];
 }
 
-Shader.prototype.particle_trail = function() 
-{
+Shader.prototype.particle_trail = function() {
     var millis = new Date().getTime();
     var time = 0.009 * millis;
     var numParticles = 50;
@@ -226,6 +225,12 @@ Shader.prototype.pastel_spots = function() {
     }
 
     this.client.mapParticles(this.particles, this.model, Shader.discParticle);    
+}
+
+Shader.prototype.off = function() {
+    this.client.mapPixels(function() {
+        return [0, 0, 0];
+    }, this.model);
 }
 
 // Convenience functions
