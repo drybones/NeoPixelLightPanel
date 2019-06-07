@@ -16,7 +16,6 @@
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/bootstrap-slider.min.css">
     
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -32,57 +31,29 @@
   </head>
   <body>
     <div class="container">
-
       <div class="top-buffer">
-
-        <button id="interactive_wave" class="btn btn-default btn-block">Interactive Wave</button>
-        <button id="color" class="btn btn-default btn-block jscolor {valueElement:null,value:'6F664A'}">Color</button>
-        <button id="sun" class="btn btn-default btn-block">Sun</button>
-        <button id="red_pulse" class="btn btn-default btn-block">Red Pulse</button>
-        <button id="cool_pulse" class="btn btn-default btn-block">Cool Pulse</button>
-        <button id="dispersion" class="btn btn-default btn-block">Dispersion</button>
-        <button id="rainbow" class="btn btn-default btn-block">Rainbow</button>
         <button id="particle_trail" class="btn btn-default btn-block">Particle Trail</button>
         <button id="embers" class="btn btn-default btn-block">Embers</button>
         <button id="candy_sparkler" class="btn btn-default btn-block">Candy Sparkler</button>
         <button id="pastel_spots" class="btn btn-default btn-block">Pastel Spots</button>
         <button id="off" class="btn btn-danger btn-block">Off</button>
-
       </div>
-
-
       <div class="alert alert-info collapse top-buffer" role="alert" id="msg"></div>
-
     </div>
-
 
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
-    <script src="js/jscolor.min.js"></script>
-    <script src="js/bootstrap-slider.min.js"></script>
     
     <script>
     $(document).ready(function() {
       $("button").click(function() {
-        if($(this).attr("id") == "interactive_wave") {
-          window.location.href = "interactive.html";
-        } else if($(this).attr("id") == "color") {
-          $.ajax({
-              type: "GET",
-              url: "/mode/"+$(this).attr("id") + "/" + this.jscolor.toHEXString().substr(-6),
-              success: function(result) {
-                  $("#msg").html(result).addClass("in");
-              }
-          });    
-        } else {
-          $.ajax({
-              type: "GET",
-              url: "/mode/"+$(this).attr("id"),
-              success: function(result) {
-                  $("#msg").html(result).addClass("in");
-              }
-          });        
-        }
+        $.ajax({
+            type: "GET",
+            url: "/mode/"+$(this).attr("id"),
+            success: function(result) {
+                $("#msg").html(result).addClass("in");
+            }
+        });        
       });
     });
     </script>

@@ -13,9 +13,7 @@ var app = express();
 app.use(cors());
 
 var bodyParser = require('body-parser');
-
 var storage = require('node-persist');
-
 var shortid = require('shortid');
 
 var mode = process.env.LIGHTPANEL_DEFAULT_MODE || null;
@@ -47,8 +45,6 @@ app.use(express.static(__dirname + '/site'));
 app.use('/js', express.static(__dirname + '/node_modules/jquery/dist')); // redirect JS jQuery
 app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js')); // redirect bootstrap JS
 app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css')); // redirect CSS bootstrap
-app.use('/js', express.static(__dirname + '/node_modules/bootstrap-slider/dist'));
-app.use('/css', express.static(__dirname + '/node_modules/bootstrap-slider/dist/css'));
 app.use(bodyParser.json());
 
 storage.init({interval: 1000}).then(function() {
@@ -121,19 +117,11 @@ app.listen(3000, function () {
 
 
 function draw() {
-    var millis = new Date().getTime();
-
     switch(mode) {
-        case "color":
-        case "rainbow":
-        case "red_pulse":
-        case "cool_pulse":
         case "particle_trail":
         case "embers":
         case "candy_sparkler":
         case "pastel_spots":
-        case "dispersion":
-        case "sun":
             shader[mode](mode_value);
             break;
 

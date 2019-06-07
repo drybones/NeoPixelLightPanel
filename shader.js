@@ -47,78 +47,6 @@ Shader.prototype._wavelet = function(p, options, millis) {
     return [red, green, blue];
 }
 
-Shader.prototype.color = function(mode_value)
-{
-    var rgb = Shader.hexToRgb(mode_value) || {r: 0, g: 0, b: 0};
-    this.client.mapPixels(function() {
-        return [rgb.r, rgb.g, rgb.b];
-    }, this.model);
-}
-
-Shader.prototype.rainbow = function()
-{
-    this._pulse({
-        freq: 0.07,
-        lambda: 0.6,
-        min: {r: 0, g: 0, b: 0},
-        max: {r: 100, g: 100, b: 100},
-        delta: {r: 0.0, g: 2.09, b: 4.19} // 2*PI/3 offsets
-    });
-}
-
-Shader.prototype.red_pulse = function()
-{
-    this._pulse({
-        freq: 0.5,
-        lambda: 0.3,
-        min: {r: 32, g: 0, b: 0},
-        max: {r: 224, g: 0, b: 0},
-        delta: {r: 0.0, g: 0.0, b: 0.0}
-    });
-}
-
-Shader.prototype.cool_pulse = function()
-{
-    this._pulse({
-        freq: 0.2,
-        lambda: 1.0,
-        min: {r: 5, g: 22, b: 28},
-        max: {r: 20, g: 80, b: 100},
-        delta: {r: 0.2, g: -0.3, b: 0.0}
-    });
-}
-
-Shader.prototype.dispersion = function()
-{
-    var millis = new Date().getTime();
-    for (var pixel = 0; pixel < this.model.length; pixel++) {
-        var t = (pixel % 30 + Math.floor(pixel/30)*0.3) * 0.2 - millis * 0.002;
-        var red = 128 + 96 * Math.sin(t);
-        var green = 128 + 96 * Math.sin(t + 0.1);
-        var blue = 128 + 96 * Math.sin(t + 0.4);
-
-        this.client.setPixel(pixel, red, green, blue);
-    }
-    this.client.writePixels();    
-}
-
-Shader.prototype.sun = function()
-{
-    var millis = new Date().getTime();
-    for(var pixel = 0; pixel < this.model.length; pixel++) {
-        var x = (pixel % 30) - 14.5;
-        var y = 1.0*(Math.floor(pixel / 30) - 3.5);
-        var r = Math.sqrt(x*x + y*y);
-        var size = 10.0 + Math.sin(millis * 0.001); 
-        var red =  190 * (size-r)/size < 0 ? 0 : 128 * (size-r)/size;
-        var green = 190 * (size*0.9-r)/(size*0.9) < 0 ? 0 : 128 * (size*0.9-r)/(size*0.9);
-        var blue = 64 * (size*0.8-r)/(size*0.8) < 0 ? 0 : 128 * (size*0.8-r)/(size*0.8);
-        red +=32; blue +=44; green +=32;
-        this.client.setPixel(pixel, red, green, blue);
-    }
-    this.client.writePixels();
-}
-
 Shader.prototype.particle_trail = function() 
 {
     var millis = new Date().getTime();
@@ -269,7 +197,7 @@ Shader.prototype.pastel_spots = function() {
     for(var i = 1; i < 10; i++) {
         var p = this.particles[i];
         if(!p || !p.born) {
-            // Start particle on circumferance outside the viewport, aim inwards
+            // Start particle on circumference outside the viewport, aim inwards
             var theta = Math.random() * 2 * Math.PI;
             var v_r = avg_speed + 0.2 * (Math.random()-0.5);
             var v_theta = theta + Math.PI + Math.random() * 0.1;
@@ -300,19 +228,6 @@ Shader.prototype.pastel_spots = function() {
     this.client.mapParticles(this.particles, this.model, Shader.discParticle);    
 }
 
-Shader.prototype._pulse = function(options) {
-    var millis = new Date().getTime();
-    var _this = this;
-    this.client.mapPixels(function (p) {
-        var r = Math.sqrt(p.point[0]*p.point[0] + p.point[2]*p.point[2]);
-        var theta = millis * 0.00628 * options.freq - r / options.lambda;
-        var red = options.min.r + (options.max.r - options.min.r) * 0.5 * (Math.sin(theta + options.delta.r) + 1);
-        var green = options.min.g + (options.max.g - options.min.g) * 0.5 * (Math.sin(theta + options.delta.g) + 1);
-        var blue = options.min.b + (options.max.b - options.min.b) * 0.5 * (Math.sin(theta + options.delta.b) + 1);
-        return [red, green, blue];
-    }, this.model);
-}
-
 // Convenience functions
 
 // http://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
@@ -338,5 +253,3 @@ Shader.discParticle = function(distanceSq, intensity, falloff) {
 }
 
 module.exports = Shader;
-
-
