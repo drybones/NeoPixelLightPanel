@@ -16,15 +16,29 @@ var bodyParser = require('body-parser');
 var storage = require('node-persist');
 var shortid = require('shortid');
 
-var mode = process.env.LIGHTPANEL_DEFAULT_MODE || null;
-var mode_value = process.env.LIGHTPANEL_DEFAULT_MODE_VALUE || null;
-
 const WAVE_CONFIG_KEY = 'wave_config';
 
-var wave_config = [
+// Fixed modes that can be changed. These don't get put in the storage,
+// just appended / returned alongside the dynamic things.
+// The ids _must_ be of the form f:method_name because we're going to 
+// call it directly on the shader object.
+// The fixed ids include ":" to avoid accidental collision with shortid
+// generated values.
+const offPreset = {id: "f:off", name: "Off", type: "fixed"};
+const fixedConfig = [
+    offPreset,
+    {id: "f:embers", name: "Embers", type: "fixed"},
+    {id: "f:particle_trail", name: "Particle Trail", type: "fixed"},
+    {id: "f:candy_sparkler", name: "Candy Sparkler", type: "fixed"},
+    {id: "f:pastel_spots", name: "Pastel Spots", type: "fixed"},
+];
+
+// Current state of all dynamic config. Default to something sane. 
+var waveConfig = [
     {
         id: shortid.generate(),
         name: "default",
+        type: "wavelets",
         wavelets: [
             {
                 id: shortid.generate(),
@@ -41,110 +55,111 @@ var wave_config = [
     }
 ];
 
+var currentPreset = offPreset;
+
 app.use(express.static(__dirname + '/site'));
 app.use(bodyParser.json());
 
 storage.init({interval: 1000}).then(function() {
     storage.getItem(WAVE_CONFIG_KEY).then(function(value) {
         if(value) {
-            wave_config = value;
+            waveConfig = value;
         } else {
-            storage.setItem(WAVE_CONFIG_KEY, wave_config);
+            storage.setItem(WAVE_CONFIG_KEY, waveConfig);
         }
     });
 });
 
-app.get('/api/wave_configs/', function(req,res) {
-    res.json(wave_config.map(o => {
-        return { id: o.id, name: o.name };
+app.get('/api/all_presets/', function(req,res) {
+    res.json(allPresets().map(o => {
+        return { id: o.id, name: o.name, type: o.type };
     }));
 })
 
+app.get('/api/current_preset_id/', function(req,res) {
+    if(currentPreset) {
+        res.send(currentPreset.id);
+    } else {
+        res.send(offPreset.id);
+    }
+})
+app.put('/api/current_preset_id/:id', function (req, res) {
+    var preset = allPresets().find(o => o.id === req.params.id);
+
+    if(preset) {
+        currentPreset = preset;
+    } else {
+        console.log("Can't find preset id '" + req.params.id + "' so turning off.");
+        currentPreset = offPreset;
+    }
+    console.log("Current preset set to " + currentPreset.id + " with type " + currentPreset.type);
+
+    res.sendStatus(200);
+})
+
 app.get('/api/wave_config/:config_id', function(req, res) {
-    res.json(wave_config.find(o => o.id === req.params.config_id));
+    res.json(waveConfig.find(o => o.id === req.params.config_id));
 })
 app.put('/api/wave_config/:config_id', function(req, res) {
-    let index = wave_config.findIndex(o => o.id === req.params.config_id);
+    let index = waveConfig.findIndex(o => o.id === req.params.config_id);
     if(index != -1) {
-        wave_config[index] = req.body;
+        waveConfig[index] = req.body;
     }
     else
     {
-        wave_config.push(req.body);
+        waveConfig.push(req.body);
     }
-    storage.setItem(WAVE_CONFIG_KEY, wave_config);
-    res.send(200);
+    storage.setItem(WAVE_CONFIG_KEY, waveConfig);
+    res.sendStatus(200);
 })
 app.delete('/api/wave_config/:config_id', function(req, res) {
-    let index = wave_config.findIndex(o => o.id === req.params.config_id);
+    let index = waveConfig.findIndex(o => o.id === req.params.config_id);
     if(index != -1) {
-        wave_config.splice(index, 1);
+        waveConfig.splice(index, 1);
     }
-    storage.setItem(WAVE_CONFIG_KEY, wave_config);
+    storage.setItem(WAVE_CONFIG_KEY, waveConfig);
     
-    res.send(200);
+    res.sendStatus(200);
 })
 
 app.get('/api/all_wave_config/', function(req, res) {
-    res.json(wave_config);
+    res.json(waveConfig);
 })
 app.put('/api/all_wave_config/', function(req, res) {
-    wave_config = req.body;
-    storage.setItem(WAVE_CONFIG_KEY, wave_config);
-    res.send(200);
-})
-
-app.get('/mode/:mode/:mode_value', function (req, res) {
-    mode = req.params.mode;
-    mode_value = req.params.mode_value;
-    let msg = "Mode set to " + mode + " with value " + mode_value;
-    console.log(msg);
-    res.send(msg);
-})
-
-app.get('/mode/:mode', function (req, res) {
-    mode = req.params.mode;
-    mode_value = null;
-    let msg = "Mode set to " + mode;
-    console.log(msg);
-    res.send(msg);
+    waveConfig = req.body;
+    storage.setItem(WAVE_CONFIG_KEY, waveConfig);
+    res.sendStatus(200);
 })
 
 app.listen(3000, function () {
   console.log('Lightpanel API server listening on port 3000')
 })
 
+function allPresets() {
+    return fixedConfig.concat(waveConfig);
+}
 
 function draw() {
-    switch(mode) {
-        case "particle_trail":
-        case "embers":
-        case "candy_sparkler":
-        case "pastel_spots":
-            shader[mode]();
-            break;
+    if(!currentPreset) {
+        return; // fast exit for when the panel is turned off
+    }
 
-        case "interactive_wave":
-            let config = wave_config.find(o => o.id === mode_value);
-            if(config) {
-                shader[mode](config);
-            } else {
-                console.log("Couldn't find config id "+mode_value);
-                mode = "off";
+    switch(currentPreset.type) {
+        case "fixed":
+            shader[currentPreset.id.substring(2)](); // Knock the "f:" off the mode name
+            if (currentPreset === offPreset) {
+                currentPreset = null;
+                console.log("Lights off. Stopping updates.");
             }
             break;
 
-        case "off":
+        case "wavelet":
+            shader.interactive_wave(currentPreset);
+            break;
+
         default:
-            if(mode && (mode != "off")) {
-                console.log("Unrecognised mode '" + mode + "'. Switching off.");
-                mode = "off";
-            }
-            if(mode) {
-                shader.off();
-                mode = null;
-                console.log("Lights off. Stopping updates.")
-            }
+            console.log("Unrecognised type '" + currentPreset.type + "'. Switching off.");
+            currentPreset = offPreset;
     }
 }
 

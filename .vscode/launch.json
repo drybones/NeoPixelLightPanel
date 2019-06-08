@@ -18,8 +18,7 @@
             "program": "${workspaceRoot}/app.js",
             "cwd": "${workspaceRoot}",
             "env": {
-                "FADECANDY_SERVER": "automation",
-                "LIGHTPANEL_DEFAULT_MODE": "off"
+                "FADECANDY_SERVER": "automation"
             }
         },
         {
