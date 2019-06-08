@@ -1,0 +1,509 @@
+[
+    {
+        "id": "SyADMBJvz",
+        "name": "Warm Vignette",
+        "type": "wavelet",
+        "wavelets": [
+            {
+                "id": "BJuyKFJPz",
+                "color": "#efc89d",
+                "freq": 0,
+                "lambda": 3,
+                "delta": 0,
+                "x": 0,
+                "y": 0,
+                "min": 0.2,
+                "max": 1
+            }
+        ]
+    },
+    {
+        "id": "r15jZqyDM",
+        "name": "Apple Skin",
+        "type": "wavelet",
+        "wavelets": [
+            {
+                "id": "BknoWc1wG",
+                "color": "#54bf54",
+                "freq": 0.2,
+                "lambda": 0.5,
+                "delta": 0,
+                "x": 2,
+                "y": 0.8,
+                "min": 0.1,
+                "max": 0.29,
+                "solo": false
+            },
+            {
+                "id": "SyY3WcyPf",
+                "color": "#c94238",
+                "freq": 0.3,
+                "lambda": 0.5,
+                "delta": 0,
+                "x": -2,
+                "y": -0.9,
+                "min": 0.1,
+                "max": 0.42,
+                "solo": false
+            }
+        ]
+    },
+    {
+        "id": "r1KTEqJDz",
+        "name": "Pastel Rainbow",
+        "type": "wavelet",
+        "wavelets": [
+            {
+                "id": "S1Qh85kwf",
+                "color": "#ab3636",
+                "freq": 0.2,
+                "lambda": 0.5,
+                "delta": 0,
+                "x": 0,
+                "y": 0,
+                "min": 0,
+                "max": 0.2998111843743592,
+                "solo": false
+            },
+            {
+                "id": "H14h8cywG",
+                "color": "#233ba8",
+                "freq": 0.2,
+                "lambda": 0.5,
+                "delta": 2.1,
+                "x": 0,
+                "y": 0,
+                "min": 0,
+                "max": 0.40059875047233306,
+                "solo": false
+            },
+            {
+                "id": "S1SnUq1vz",
+                "color": "#2da82d",
+                "freq": 0.2,
+                "lambda": 0.5,
+                "delta": 4.2,
+                "x": 0,
+                "y": 0,
+                "min": 0,
+                "max": 0.40059875047233306,
+                "solo": false
+            }
+        ]
+    },
+    {
+        "id": "SJF9d9yPz",
+        "name": "Dispersion",
+        "type": "wavelet",
+        "wavelets": [
+            {
+                "id": "Bk09dckPM",
+                "color": "#ff0000",
+                "freq": 0.25,
+                "lambda": 1,
+                "delta": 0,
+                "x": 1000,
+                "y": 500,
+                "min": 0.12,
+                "max": 0.87,
+                "solo": false
+            },
+            {
+                "id": "BJxxFq1Dz",
+                "color": "#00ff00",
+                "freq": 0.25,
+                "lambda": 1,
+                "delta": -0.1,
+                "x": 1000,
+                "y": 500,
+                "min": 0.12,
+                "max": 0.87,
+                "solo": false
+            },
+            {
+                "id": "B1i7FqkPG",
+                "color": "#0000ff",
+                "freq": 0.25,
+                "lambda": 1,
+                "delta": -0.4,
+                "x": 1000,
+                "y": 500,
+                "min": 0.1,
+                "max": 0.7,
+                "solo": false
+            }
+        ]
+    },
+    {
+        "id": "Bkvvt51wG",
+        "name": "Orange and Teal",
+        "type": "wavelet",
+        "wavelets": [
+            {
+                "id": "Bk09dckPM",
+                "color": "#ff8800",
+                "freq": 0.2,
+                "lambda": 0.8,
+                "delta": 0,
+                "x": -0.7,
+                "y": 0,
+                "min": 0,
+                "max": 0.7,
+                "solo": false
+            },
+            {
+                "id": "B10jK9yvM",
+                "color": "#0088ff",
+                "freq": 0.2,
+                "lambda": 0.8,
+                "delta": 3.14,
+                "x": 0.7,
+                "y": 0,
+                "min": 0,
+                "max": 0.7,
+                "solo": false
+            }
+        ]
+    },
+    {
+        "id": "HJ_f5ckwf",
+        "name": "Warm Glow",
+        "type": "wavelet",
+        "wavelets": [
+            {
+                "id": "rk5G5qyDM",
+                "color": "#ff7400",
+                "freq": 0.3,
+                "lambda": 0.2,
+                "delta": 0,
+                "x": -1.4,
+                "y": -2.5,
+                "min": 0,
+                "max": 0.19,
+                "solo": false
+            },
+            {
+                "id": "H16Hc5JPz",
+                "color": "#ffbd4b",
+                "freq": 0.2,
+                "lambda": 0.3,
+                "delta": 0,
+                "x": 1.8,
+                "y": -0.4,
+                "min": 0,
+                "max": 0.22,
+                "solo": false
+            },
+            {
+                "id": "rJItq5ywM",
+                "color": "#ff2222",
+                "freq": 0.1,
+                "lambda": 1.5,
+                "delta": 0,
+                "x": 0,
+                "y": 0,
+                "min": 0,
+                "max": 0.22432236254431565,
+                "solo": false
+            },
+            {
+                "id": "SJop951vG",
+                "color": "#ff3e00",
+                "freq": 0,
+                "lambda": 10,
+                "delta": 0,
+                "x": 0,
+                "y": 0,
+                "min": 0.149687222021756,
+                "max": 0.15269673935112496,
+                "solo": false
+            },
+            {
+                "id": "HysSs9JPz",
+                "color": "#ffc94a",
+                "freq": 1.1,
+                "lambda": 0.2,
+                "delta": 0,
+                "x": 1,
+                "y": -2.1,
+                "min": 0,
+                "max": 0.09,
+                "solo": false
+            }
+        ]
+    },
+    {
+        "id": "SkVEkikvf",
+        "name": "Solid Light",
+        "type": "wavelet",
+        "wavelets": [
+            {
+                "id": "B1hNkiJDf",
+                "color": "#ffeace",
+                "freq": 0,
+                "lambda": 10000,
+                "delta": 0,
+                "x": 0,
+                "y": 0,
+                "min": 0.5893458478151642,
+                "max": 0.5893458478151642
+            }
+        ]
+    },
+    {
+        "id": "SytH_Sydz",
+        "name": "Shades of Blue",
+        "type": "wavelet",
+        "wavelets": [
+            {
+                "id": "HJ2HOB1_G",
+                "color": "#00ffd2",
+                "freq": 0.5,
+                "lambda": 0.3,
+                "delta": 0,
+                "x": 50,
+                "y": 1000,
+                "min": 0.149687222021756,
+                "max": 0.3207776915128427,
+                "solo": false
+            },
+            {
+                "id": "BkXDuByOf",
+                "color": "#29669a",
+                "freq": 0.3,
+                "lambda": 0.7,
+                "delta": 0.9,
+                "x": 1000,
+                "y": 200,
+                "min": 0.149687222021756,
+                "max": 0.5599914259811761,
+                "solo": false
+            },
+            {
+                "id": "Hy3iw8kOz",
+                "color": "#5005e6",
+                "freq": 0.7,
+                "lambda": 0.5,
+                "delta": 0,
+                "x": -1000,
+                "y": 0,
+                "min": -0.0014711301528614333,
+                "max": 0.25543986389376566,
+                "solo": false
+            }
+        ]
+    },
+    {
+        "id": "HkYnPAl_z",
+        "name": "Sickly",
+        "type": "wavelet",
+        "wavelets": [
+            {
+                "id": "S1Qav0ldG",
+                "color": "#dedc5d",
+                "freq": 0.1,
+                "lambda": 0.3,
+                "delta": 0,
+                "x": -1.4,
+                "y": 0.9,
+                "min": 0,
+                "max": 0.43,
+                "solo": false
+            },
+            {
+                "id": "rymu_CgOM",
+                "color": "#a6d673",
+                "freq": 0.08,
+                "lambda": 0.5,
+                "delta": 0,
+                "x": 3.1,
+                "y": 0.7,
+                "min": 0.04,
+                "max": 0.63,
+                "solo": false
+            },
+            {
+                "id": "S1TaORluf",
+                "color": "#b3a562",
+                "freq": 0.07,
+                "lambda": 0.3,
+                "delta": 0,
+                "x": 0,
+                "y": -0.9,
+                "min": 0.1,
+                "max": 0.44,
+                "solo": false
+            }
+        ]
+    },
+    {
+        "id": "H1katih0M",
+        "name": "Sun",
+        "type": "wavelet",
+        "wavelets": [
+            {
+                "id": "Skk0Ki2RM",
+                "color": "#ffeb7f",
+                "freq": 0,
+                "lambda": 2.3,
+                "delta": 0,
+                "x": 0,
+                "y": 0,
+                "min": -0.75,
+                "max": 4.35,
+                "solo": false,
+                "clip": true
+            },
+            {
+                "id": "SklHci3AM",
+                "color": "#ff9045",
+                "freq": 0,
+                "lambda": 3.4,
+                "delta": 0,
+                "x": 0,
+                "y": 0,
+                "min": -2.04,
+                "max": 5.98,
+                "solo": false,
+                "clip": true
+            },
+            {
+                "id": "H10R9j20G",
+                "color": "#a4ceea",
+                "freq": 0,
+                "lambda": 100,
+                "delta": 0,
+                "x": 0,
+                "y": 0,
+                "min": 0.06,
+                "max": 0.28,
+                "solo": false
+            }
+        ]
+    },
+    {
+        "id": "SyyHnR2Az",
+        "name": "RGB Stripes",
+        "type": "wavelet",
+        "wavelets": [
+            {
+                "id": "HJ-SnR2Az",
+                "color": "#ff0000",
+                "freq": 0.05,
+                "lambda": 1.5,
+                "delta": 0,
+                "x": 1000,
+                "y": 400,
+                "min": -10,
+                "max": 0.37689000153062796,
+                "clip": true,
+                "solo": false
+            },
+            {
+                "id": "HJzx00hCz",
+                "color": "#00ff00",
+                "freq": 0.05,
+                "lambda": 1.5,
+                "delta": -0.8,
+                "x": 1000,
+                "y": 400,
+                "min": -10,
+                "max": 0.37689000153062796,
+                "clip": true,
+                "solo": false
+            },
+            {
+                "id": "SynGARhRf",
+                "color": "#000dff",
+                "freq": 0.05,
+                "lambda": 1.5,
+                "delta": -1.55,
+                "x": 1000,
+                "y": 400,
+                "min": -10,
+                "max": 0.48,
+                "clip": true,
+                "solo": false
+            }
+        ]
+    },
+    {
+        "id": "HJ0RlypCf",
+        "name": "Green Scanlines",
+        "type": "wavelet",
+        "wavelets": [
+            {
+                "id": "rkrkWyTAz",
+                "color": "#6dffc4",
+                "freq": 0.4,
+                "lambda": 0.4,
+                "delta": 0,
+                "x": -50,
+                "y": 1000,
+                "min": -10.000143146707966,
+                "max": 0.35354654014591186,
+                "clip": true,
+                "solo": false
+            },
+            {
+                "id": "SJnyWJaAM",
+                "color": "#00501e",
+                "freq": 0,
+                "lambda": 1000,
+                "delta": 0,
+                "x": 0,
+                "y": 1000,
+                "min": 0.31915594983710127,
+                "max": 0.31915594983710127,
+                "clip": false,
+                "solo": false
+            }
+        ]
+    },
+    {
+        "id": "B1E3fhBRV",
+        "name": "Blinky Blue",
+        "type": "wavelet",
+        "wavelets": [
+            {
+                "id": "ryi3MhB04",
+                "color": "#3ebfb2",
+                "freq": 1.7,
+                "lambda": 0.001,
+                "delta": 0,
+                "x": 0.8,
+                "y": -0.9,
+                "min": -0.05596121307455691,
+                "max": 0.1346782743476467,
+                "clip": true,
+                "solo": false
+            },
+            {
+                "id": "NSVSEzYwk",
+                "color": "#48c360",
+                "freq": 0.8,
+                "lambda": 0.001,
+                "delta": 0.5,
+                "x": -0.1,
+                "y": 0.8,
+                "min": -0.1723270534426143,
+                "max": 0.09888608902401538,
+                "clip": true,
+                "solo": false
+            },
+            {
+                "id": "cqvIjCWLW",
+                "color": "#3f63ff",
+                "freq": 0.2,
+                "lambda": 0.001,
+                "delta": -0.3,
+                "x": 0.9,
+                "y": -1.1,
+                "min": -0.5465412866220769,
+                "max": 0.121221169162075,
+                "clip": true,
+                "solo": false
+            }
+        ]
+    }
+]
