@@ -102,14 +102,18 @@ app.get('/api/wave_config/:config_id', function(req, res) {
 })
 app.put('/api/wave_config/:config_id', function(req, res) {
     let index = waveConfig.findIndex(o => o.id === req.params.config_id);
+    let newConfig = req.body;
     if(index != -1) {
-        waveConfig[index] = req.body;
+        waveConfig[index] = newConfig;
     }
     else
     {
-        waveConfig.push(req.body);
+        waveConfig.push(newConfig);
     }
     storage.setItem(WAVE_CONFIG_KEY, waveConfig);
+
+    currentPreset = newConfig;
+
     res.sendStatus(200);
 })
 app.delete('/api/wave_config/:config_id', function(req, res) {
@@ -119,6 +123,9 @@ app.delete('/api/wave_config/:config_id', function(req, res) {
     }
     storage.setItem(WAVE_CONFIG_KEY, waveConfig);
     
+    if(currentPreset.id === req.params.config_id) {
+        currentPreset = offPreset;
+    }
     res.sendStatus(200);
 })
 
