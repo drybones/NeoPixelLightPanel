@@ -38,7 +38,7 @@ var waveConfig = [
     {
         id: shortid.generate(),
         name: "default",
-        type: "wavelets",
+        type: "wavelet",
         wavelets: [
             {
                 id: shortid.generate(),
