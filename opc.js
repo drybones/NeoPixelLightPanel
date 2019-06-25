@@ -13,10 +13,11 @@ var fs = require('fs');
  * Core OPC Client
  */
 
-var OPC = function(host, port)
+var OPC = function(host, port, brightness=1.0)
 {
     this.host = host;
     this.port = port;
+    this.brightness = brightness; // Could implement this via a whitepoint config instead?
     this.pixelBuffer = null;
 };
 
@@ -78,9 +79,9 @@ OPC.prototype.setPixel = function(num, r, g, b)
         this.setPixelCount(num + 1);
     }
 
-    this.pixelBuffer.writeUInt8(Math.max(0, Math.min(255, r | 0)), offset);
-    this.pixelBuffer.writeUInt8(Math.max(0, Math.min(255, g | 0)), offset + 1);
-    this.pixelBuffer.writeUInt8(Math.max(0, Math.min(255, b | 0)), offset + 2);
+    this.pixelBuffer.writeUInt8(Math.max(0, Math.min(255, (r | 0) * this.brightness)), offset);
+    this.pixelBuffer.writeUInt8(Math.max(0, Math.min(255, (g | 0) * this.brightness)), offset + 1);
+    this.pixelBuffer.writeUInt8(Math.max(0, Math.min(255, (b | 0) * this.brightness)), offset + 2);
 }
 
 OPC.prototype.mapPixels = function(fn, model)
@@ -104,9 +105,9 @@ OPC.prototype.mapPixels = function(fn, model)
         var led = model[i];
         var rgb = led ? fn(led) : unused;
 
-        this.pixelBuffer.writeUInt8(Math.max(0, Math.min(255, rgb[0] | 0)), offset);
-        this.pixelBuffer.writeUInt8(Math.max(0, Math.min(255, rgb[1] | 0)), offset + 1);
-        this.pixelBuffer.writeUInt8(Math.max(0, Math.min(255, rgb[2] | 0)), offset + 2);
+        this.pixelBuffer.writeUInt8(Math.max(0, Math.min(255, (rgb[0] | 0) * this.brightness)), offset);
+        this.pixelBuffer.writeUInt8(Math.max(0, Math.min(255, (rgb[1] | 0) * this.brightness)), offset + 1);
+        this.pixelBuffer.writeUInt8(Math.max(0, Math.min(255, (rgb[2] | 0) * this.brightness)), offset + 2);
         offset += 3;
     }
 

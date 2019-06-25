@@ -17,6 +17,7 @@ var storage = require('node-persist');
 var shortid = require('shortid');
 
 const WAVE_CONFIG_KEY = 'wave_config';
+const GLOBAL_BRIGHTNESS_CONFIG_KEY = 'global_brightness';
 
 // Fixed modes that can be changed. These don't get put in the storage,
 // just appended / returned alongside the dynamic things.
@@ -55,6 +56,8 @@ var waveConfig = [
     }
 ];
 
+var global_brightness = 1.0;
+
 var currentPreset = offPreset;
 
 app.use(express.static(__dirname + '/site'));
@@ -68,7 +71,25 @@ storage.init({interval: 1000}).then(function() {
             storage.setItem(WAVE_CONFIG_KEY, waveConfig);
         }
     });
+    storage.getItem(GLOBAL_BRIGHTNESS_CONFIG_KEY).then(function(value) {
+        if(value) {
+            global_brightness = parseFloat(value);
+            client.brightness = global_brightness
+        } else {
+            storage.setItem(GLOBAL_BRIGHTNESS_CONFIG_KEY, global_brightness);
+        }
+    });
 });
+
+app.get('/api/brightness/', function(req,res) {
+    res.send(global_brightness.toString()); // Cast to string; a number implies an http status code
+})
+app.put('/api/brightness/:brightness', function(req,res) {
+    global_brightness = req.params.brightness;
+    client.brightness = global_brightness;
+    storage.setItem(GLOBAL_BRIGHTNESS_CONFIG_KEY, global_brightness);
+    res.sendStatus(200);
+})
 
 app.get('/api/all_presets/', function(req,res) {
     res.json(allPresets().map(o => {
