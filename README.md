@@ -19,7 +19,7 @@ Currently using `/etc/rc.local` to do that, having copied the [rpi executable](h
 
 The backend is then also run from `/etc/rc.local` using:
 ```
-export FADECANDY_SERVER=automation.local
+export FADECANDY_SERVER=blinky.local
 node /home/pi/NeoPixelLightPanel/app.js &
 ```
 
