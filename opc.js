@@ -63,7 +63,7 @@ OPC.prototype.setPixelCount = function(num)
 {
     var length = 4 + num*3;
     if (this.pixelBuffer == null || this.pixelBuffer.length != length) {
-        this.pixelBuffer = new Buffer(length);
+        this.pixelBuffer = new Buffer.alloc(length);
     }
 
     // Initialize OPC header

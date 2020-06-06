@@ -12,7 +12,7 @@ Use `node app.js` to run, or hit `F5` in VS Code.
 ## Prod
 Driving the lights will require the FadeCandy server to be running. 
 
-Currently using `/etc/rc.local` to do that, having copied the [rpi executable](https://github.com/scanlime/fadecandy/blob/master/bin/fcserver-rpi) and this repo's `fcserver.json` to other locations:
+Currently using `/etc/rc.local` to do that, having copied the [rpi executable](https://github.com/scanlime/fadecandy/blob/master/bin/fcserver-rpi) and this repo's `fcserver.json` to `/user/local/bin`:
 ```
 /usr/local/bin/fcserver /usr/local/bin/fcserver.json >/var/log/fcserver.log 2>&1 &
 ```
@@ -26,3 +26,5 @@ node /home/pi/NeoPixelLightPanel/app.js &
 ## Config
 
 `FADECANDY_SERVER` defaults to `localhost` (hardcoded to port `7890`).
+
+You might need to change `"listen": ["127.0.0.1", 7890]` in `fcserver.json` to the actual hostname to make the FadeCandy server accessible remotely.
